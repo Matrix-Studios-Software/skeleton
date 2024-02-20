@@ -26,10 +26,10 @@ Once you have completed the first step, you can create a file called `template-c
 
 ```json
 {
-	id: "my-server",
-	name: "MyServerName",
-	command: "java -jar SomeApp.java",
-	space: 2048 //in format of MB
+  id: "my-server",
+  name: "MyServerName",
+  command: "java -jar SomeApp.java",
+  space: 2048 //in format of MB
 }
 ```
 
