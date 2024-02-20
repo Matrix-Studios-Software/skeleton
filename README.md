@@ -24,12 +24,12 @@ In order to use skeleton, you must first make a template of the type of server y
 
 Once you have completed the first step, you can create a file called `template-config.json` and set it up. An example JSON configuration would look like this:
 
-```json
+```yaml
 {
   id: "my-server",
   name: "MyServerName",
   command: "java -jar SomeApp.java",
-  space: 2048 //in format of MB
+  space: 2048 #in format of MB
 }
 ```
 
