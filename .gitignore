@@ -1,4 +1,5 @@
 .gradle
+.obsidian
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
