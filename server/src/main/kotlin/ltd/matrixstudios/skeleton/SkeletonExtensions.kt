@@ -15,3 +15,5 @@ fun Application.module()
 
     SkeletonConfigurationService.load()
 }
+
+fun config() = SkeletonConfigurationService.config
