@@ -8,6 +8,6 @@ interface SkeletonConfiguration
 {
     @Intrinsic
     @EntryName("template-path")
-    @DefaultString("C:\\")
+    @DefaultString("JAR_PATH")
     fun getTemplatePath(): String
 }
