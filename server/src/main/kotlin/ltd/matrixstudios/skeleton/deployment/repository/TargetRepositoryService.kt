@@ -1,6 +1,5 @@
 package ltd.matrixstudios.skeleton.deployment.repository
 
-import ltd.matrixstudios.skeleton.configuration.SkeletonConfiguration
 import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
 import java.io.File
@@ -12,6 +11,20 @@ object TargetRepositoryService
 
     fun loadFiles()
     {
+        if (!parent.exists())
+        {
+            parent.mkdir()
+        }
 
+        val children = parent.listFiles()?.filter { it.isDirectory } ?: emptyList()
+
+        for (child in children)
+        {
+            // once filtered we treat as a json file
+            val templateConfig = child.listFiles()?.firstOrNull { it.isFile && it.name == "template-config.json" }
+                ?: continue
+
+
+        }
     }
 }

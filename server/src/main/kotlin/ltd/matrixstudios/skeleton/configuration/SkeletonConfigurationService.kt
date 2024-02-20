@@ -3,7 +3,6 @@ package ltd.matrixstudios.skeleton.configuration
 import ltd.matrixstudios.amber.AmberConfigurationService
 import ltd.matrixstudios.skeleton.SkeletonServer
 import java.io.File
-import java.net.URI
 
 object SkeletonConfigurationService
 {

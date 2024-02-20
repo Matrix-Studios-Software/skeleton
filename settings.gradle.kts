@@ -1,3 +1,3 @@
-rootProject.name = "ltd.matrixstudios.skeleton"
+rootProject.name = "skeleton"
 
 include("server")
