@@ -23,5 +23,16 @@ object SkeletonConfigurationService
         config = AmberConfigurationService.from(SkeletonConfiguration::class.java, "skeleton-configuration.yaml")
     }
 
-    fun getParentFolder(): File = File(config.getTemplatePath())
+    fun getParentFolder(): File
+    {
+        val path = config.getTemplatePath()
+
+        return if (path == "JAR_PATH")
+        {
+            File(SkeletonServer::class.java.getProtectionDomain().codeSource.location.path).parentFile
+        } else
+        {
+            File(path)
+        }
+    }
 }

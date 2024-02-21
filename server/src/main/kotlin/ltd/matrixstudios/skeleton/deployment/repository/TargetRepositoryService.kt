@@ -1,5 +1,6 @@
 package ltd.matrixstudios.skeleton.deployment.repository
 
+import io.ktor.serialization.kotlinx.json.*
 import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
 import java.io.File
@@ -24,7 +25,10 @@ object TargetRepositoryService
             val templateConfig = child.listFiles()?.firstOrNull { it.isFile && it.name == "template-config.json" }
                 ?: continue
 
+            val parsedDeploymentTarget = DefaultJson.decodeFromString<DeploymentTarget>(templateConfig.readText())
+            println("Found deployment target: ${parsedDeploymentTarget.id}")
 
+            targets[parsedDeploymentTarget.id] = parsedDeploymentTarget
         }
     }
 }

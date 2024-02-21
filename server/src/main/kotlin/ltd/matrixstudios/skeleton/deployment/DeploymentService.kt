@@ -12,6 +12,4 @@ object DeploymentService
         .build()
 
     val dockerClient: DockerClient = DockerClientBuilder.getInstance(dockerConfig).build()
-
-
 }

@@ -6,7 +6,6 @@ import ltd.matrixstudios.skeleton.deployment.DeploymentService
 
 object DockerContainerManager
 {
-
     fun listContainers(): List<Container> = DeploymentService.dockerClient.listContainersCmd().exec()
 
     fun getContainerInspection(containerId: String): InspectContainerResponse =
