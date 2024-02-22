@@ -10,5 +10,5 @@ data class DeploymentTarget(
     val command: String,
     val space: Int,
     val directory: String? = null,
-    val performanceProperties: ReplicationProperties? = null,
+    var replicationProperties: ReplicationProperties? = null,
 )

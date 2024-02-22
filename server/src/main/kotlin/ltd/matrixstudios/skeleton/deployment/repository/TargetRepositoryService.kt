@@ -2,6 +2,7 @@ package ltd.matrixstudios.skeleton.deployment.repository
 
 import io.ktor.serialization.kotlinx.json.*
 import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
+import ltd.matrixstudios.skeleton.deployment.scaling.ReplicationProperties
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
 import java.io.File
 
@@ -27,6 +28,16 @@ object TargetRepositoryService
 
             val parsedDeploymentTarget = DefaultJson.decodeFromString<DeploymentTarget>(templateConfig.readText())
             println("Found deployment target: ${parsedDeploymentTarget.id}")
+
+            val replicationFile = child.listFiles()?.firstOrNull { it.isFile && it.name == "replication-settings.json" }
+
+            if (replicationFile != null)
+            {
+                println("Found the replication settings for ${parsedDeploymentTarget.id}")
+                val replicationProperties = DefaultJson.decodeFromString<ReplicationProperties>(replicationFile.readText())
+
+                parsedDeploymentTarget.replicationProperties = replicationProperties
+            }
 
             targets[parsedDeploymentTarget.id] = parsedDeploymentTarget
         }
