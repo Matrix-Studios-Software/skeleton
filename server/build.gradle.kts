@@ -22,7 +22,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
     // docker
-    implementation("com.github.docker-java:docker-java:3.3.4")
+    implementation("com.github.docker-java:docker-java-transport-okhttp:3.3.4")
 
     // amber
     implementation("ltd.matrixstudios:amber:1.1.0")

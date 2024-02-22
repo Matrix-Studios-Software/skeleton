@@ -12,7 +12,7 @@ class SkeletonServer
         @JvmStatic
         fun main(args: Array<String>)
         {
-            embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+            embeddedServer(Netty, port = 6969, host = "0.0.0.0", module = Application::module)
                 .start(wait = true)
         }
     }
