@@ -33,5 +33,21 @@ Once you have completed the first step, you can create a file called `template-c
 }
 ```
 
+This configuration file is just the bare version of the configuration. If you want to enable replications and configure how the server will replication you must make a settings file for the replications.
+
+You can do this by creating a new file called `replication-settings.json` and setting it up using the 3 fields that are shown below:
+
+```yaml
+{
+  maximumReplications: 10,
+  minimumReplications: 2,
+  replicationRate: 1
+}
+```
+
+This will set an upper bound, `maximumRepications`, that the service will never exceed when launching new servers. It will also set a floor that the replications can never drop below for required services.
+
+If you wanted to have multiple replications per invocation, you just change `replicationRate` to the amount you want.
+
 
 
