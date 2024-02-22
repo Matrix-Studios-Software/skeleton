@@ -25,6 +25,10 @@ object SkeletonRoutingManager
             get("/deployment/container/{id}") {
                 ContainerSpecificRoutes.containerDataRequest(call)
             }
+
+            get("/deployment/container/{id}/status") {
+                ContainerSpecificRoutes.retrieveContainerStatus(call)
+            }
         }
     }
 }

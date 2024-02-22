@@ -24,6 +24,9 @@ dependencies {
     // docker
     implementation("com.github.docker-java:docker-java-transport-okhttp:3.3.4")
 
+    // gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
     // amber
     implementation("ltd.matrixstudios:amber:1.1.0")
     implementation("com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4")

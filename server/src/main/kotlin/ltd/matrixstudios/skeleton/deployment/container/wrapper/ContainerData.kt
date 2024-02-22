@@ -2,6 +2,8 @@ package ltd.matrixstudios.skeleton.deployment.container.wrapper
 
 import com.github.dockerjava.api.command.CreateContainerResponse
 import com.github.dockerjava.api.model.Container
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
 
 /**

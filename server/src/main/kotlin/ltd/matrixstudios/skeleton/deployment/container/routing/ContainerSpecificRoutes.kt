@@ -1,12 +1,10 @@
 package ltd.matrixstudios.skeleton.deployment.container.routing
 
 import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import kotlinx.serialization.encodeToString
+import ltd.matrixstudios.skeleton.GSON
 import ltd.matrixstudios.skeleton.deployment.container.DockerContainerManager
-import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
 
 /**
  * Class created on 2/21/2024
@@ -17,13 +15,18 @@ import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
  */
 object ContainerSpecificRoutes
 {
+    /**
+     * Request general data about a container
+     *
+     * @path /deployment/container/{id}
+     */
     suspend fun containerDataRequest(call: ApplicationCall)
     {
         val idParameter = call.parameters["id"]
 
         if (idParameter == null)
         {
-            call.respond(HttpStatusCode(502, "No Id Parameter"))
+            call.respond(HttpStatusCode(404, "No Id Parameter"))
             return
         } else
         {
@@ -31,11 +34,38 @@ object ContainerSpecificRoutes
 
             if (containerData == null)
             {
-                call.respond(HttpStatusCode(502, "Container data does not exist"))
+                call.respond(HttpStatusCode(404, "Container data does not exist"))
                 return
             }
 
-            call.respond<String>(DefaultJson.encodeToString<ContainerData>(containerData))
+            call.respond(GSON.toJson(containerData))
+        }
+    }
+
+    /**
+     * Retrieve the status of a given container
+     *
+     * @path /deployment/container/{id}/status
+     */
+    suspend fun retrieveContainerStatus(call: ApplicationCall)
+    {
+        val idParameter = call.parameters["id"]
+
+        if (idParameter == null)
+        {
+            call.respond(HttpStatusCode(404, "No Id Parameter"))
+            return
+        } else
+        {
+            val containerData = DockerContainerManager.getContainerData(idParameter.lowercase())
+
+            if (containerData == null)
+            {
+                call.respond(HttpStatusCode(404, "Container data does not exist"))
+                return
+            }
+
+            call.respondText(containerData.model.status)
         }
     }
 }
