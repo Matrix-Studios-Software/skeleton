@@ -5,6 +5,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ltd.matrixstudios.skeleton.deployment.container.routing.ContainerSpecificRoutes
+import ltd.matrixstudios.skeleton.deployment.image.routing.ImageSpecificRoutes
 
 /**
  * Class created on 2/21/2024
@@ -22,12 +23,17 @@ object SkeletonRoutingManager
                 call.respondText("Request uri: $uri")
             }
 
+            /**
+             * Deployment routes
+             */
             get("/deployment/container/{id}") {
                 ContainerSpecificRoutes.containerDataRequest(call)
             }
-
             get("/deployment/container/{id}/status") {
                 ContainerSpecificRoutes.retrieveContainerStatus(call)
+            }
+            get("/deployment/images/{id}") {
+                ImageSpecificRoutes.imageDataRequest(call)
             }
         }
     }

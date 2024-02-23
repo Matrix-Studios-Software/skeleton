@@ -2,6 +2,7 @@ package ltd.matrixstudios.skeleton.deployment.targets
 
 import kotlinx.serialization.Serializable
 import ltd.matrixstudios.skeleton.deployment.scaling.ReplicationProperties
+import java.io.File
 
 @Serializable
 data class DeploymentTarget(
@@ -9,6 +10,9 @@ data class DeploymentTarget(
     val name: String,
     val command: String,
     val space: Int,
-    val directory: String? = null,
+    var directory: String? = null,
     var replicationProperties: ReplicationProperties? = null,
 )
+{
+    fun getDockerfile(): File = File(directory!!).listFiles().first { it.isFile && it.name == "Dockerfile" }
+}
