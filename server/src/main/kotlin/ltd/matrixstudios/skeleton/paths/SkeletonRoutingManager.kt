@@ -24,7 +24,8 @@ object SkeletonRoutingManager
             }
 
             /**
-             * Deployment routes
+             * Any route that has to do with deploying
+             * things through Docker.
              */
             get("/deployment/container/{id}") {
                 ContainerSpecificRoutes.containerDataRequest(call)
@@ -34,6 +35,9 @@ object SkeletonRoutingManager
             }
             get("/deployment/images/{id}") {
                 ImageSpecificRoutes.imageDataRequest(call)
+            }
+            post("/deployment/images/{id}/launch") {
+                ImageSpecificRoutes.launchImageRequest(call)
             }
         }
     }

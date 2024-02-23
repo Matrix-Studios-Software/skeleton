@@ -33,3 +33,5 @@ fun Application.module()
 }
 
 fun config() = SkeletonConfigurationService.config
+
+fun String.formatId(): String = "sha256:$this"

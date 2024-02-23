@@ -12,6 +12,7 @@ data class DeploymentTarget(
     val space: Int,
     var directory: String? = null,
     var replicationProperties: ReplicationProperties? = null,
+    val containers: MutableList<String> = mutableListOf()
 )
 {
     fun getDockerfile(): File = File(directory!!).listFiles().first { it.isFile && it.name == "Dockerfile" }
