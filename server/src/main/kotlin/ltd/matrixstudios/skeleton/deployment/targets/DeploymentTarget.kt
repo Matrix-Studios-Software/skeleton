@@ -8,7 +8,6 @@ import java.io.File
 data class DeploymentTarget(
     val id: String,
     val name: String,
-    val command: String,
     val space: Int,
     var directory: String? = null,
     var replicationProperties: ReplicationProperties? = null,

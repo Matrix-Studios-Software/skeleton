@@ -2,6 +2,8 @@ package ltd.matrixstudios.skeleton.deployment.container
 
 import com.github.dockerjava.api.command.InspectContainerResponse
 import com.github.dockerjava.api.model.Container
+import com.github.dockerjava.api.model.ExposedPort
+import com.github.dockerjava.api.model.Ports
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
@@ -26,15 +28,18 @@ object DockerContainerManager
 
     fun createAndInitiateContainer(imageId: String, deploymentTarget: DeploymentTarget? = null)
     {
-        val creationResponse = DeploymentService.dockerClient.createContainerCmd(imageId).exec()
+        val portBindings = mutableMapOf<Int, Int>()
+        val ports = Ports()
+
+        ports.bind(ExposedPort.tcp(25565), Ports.Binding.bindPort(25572))
+        portBindings[25565] = 25572
+
+        val creationResponse = DeploymentService.dockerClient.createContainerCmd(imageId)
+            .withPortBindings(ports)
+            .withIpv4Address("0.0.0.0")
+            .exec()
 
         DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()
-
-        containerDataCache[creationResponse.id] = ContainerData(
-            getContainerById(creationResponse.id)!!,
-            deploymentTarget,
-            creationResponse
-        )
     }
 
     fun pushContainer(containerData: ContainerData)

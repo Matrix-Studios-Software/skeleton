@@ -26,10 +26,11 @@ Once you have completed the first step, you can create a file called `template-c
 
 ```yaml
 {
-  id: "my-server",
-  name: "MyServerName",
-  command: "java -jar SomeApp.java",
-  space: 2048 #in format of MB
+{
+    "id": "my-server",
+    "name": "MyServerName",
+    "space": 2048 #in MB
+  }
 }
 ```
 
