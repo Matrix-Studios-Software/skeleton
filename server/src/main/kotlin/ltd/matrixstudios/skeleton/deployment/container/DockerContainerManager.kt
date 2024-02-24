@@ -6,7 +6,7 @@ import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.Ports
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
-import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
+import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTemplate
 import ltd.matrixstudios.skeleton.formatId
 import ltd.matrixstudios.skeleton.sync.ContainerBindingService
 
@@ -27,7 +27,7 @@ object DockerContainerManager
     fun getContainerById(containerId: String): Container? =
         DeploymentService.dockerClient.listContainersCmd().exec().firstOrNull { it.id == containerId.formatId() }
 
-    fun createAndInitiateContainer(imageId: String, deploymentTarget: DeploymentTarget? = null)
+    fun createAndInitiateContainer(imageId: String, deploymentTemplate: DeploymentTemplate? = null)
     {
         val portBindings = mutableMapOf<Int, Int>()
         val ports = Ports()
@@ -42,26 +42,26 @@ object DockerContainerManager
 
         DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()
 
-        if (deploymentTarget != null)
+        if (deploymentTemplate != null)
         {
             ContainerData(
                 creationResponse.id,
                 getContainerById(creationResponse.id)!!,
-                deploymentTarget,
+                deploymentTemplate,
                 creationResponse
             ).apply {
-                pushContainer(this, deploymentTarget)
+                pushContainer(this, deploymentTemplate)
             }
         }
     }
 
-    fun pushContainer(containerData: ContainerData, deploymentTarget: DeploymentTarget? = null)
+    fun pushContainer(containerData: ContainerData, deploymentTemplate: DeploymentTemplate? = null)
     {
         containerDataCache[containerData.model.id] = containerData
 
-        if (deploymentTarget != null)
+        if (deploymentTemplate != null)
         {
-            ContainerBindingService.addContainerId(deploymentTarget.id, containerData)
+            ContainerBindingService.addContainerId(deploymentTemplate.id, containerData)
         }
     }
 

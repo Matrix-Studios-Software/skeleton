@@ -5,7 +5,7 @@ import ltd.matrixstudios.skeleton.deployment.scaling.ReplicationProperties
 import java.io.File
 
 @Serializable
-data class DeploymentTarget(
+data class DeploymentTemplate(
     val id: String,
     val name: String,
     val space: Int,

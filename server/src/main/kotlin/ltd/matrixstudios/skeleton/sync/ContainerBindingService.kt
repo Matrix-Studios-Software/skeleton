@@ -12,22 +12,22 @@ object ContainerBindingService
         object : TypeToken<MutableMap<String, ContainerData>>()
         {}.type
 
-    fun getContainerIdsFromTarget(targetId: String): MutableMap<String, ContainerData> =
+    fun getContainerIdsFromTemplate(templateId: String): MutableMap<String, ContainerData> =
         RedisDatabaseManager.useThenClose {
             val list = it.hget(
                 "skeleton:container-bindings:",
-                targetId.lowercase()
+                templateId.lowercase()
             )
 
             GSON.fromJson(list, type)
         }
 
-    fun addContainerId(targetId: String, data: ContainerData) = RedisDatabaseManager.useThenClose { jedis ->
+    fun addContainerId(templateId: String, data: ContainerData) = RedisDatabaseManager.useThenClose { jedis ->
         jedis.hset(
             "skeleton:container-bindings:",
-            targetId.lowercase(),
+            templateId.lowercase(),
             GSON.toJson(
-                getContainerIdsFromTarget(targetId).also {
+                getContainerIdsFromTemplate(templateId).also {
                     it[data.id] = data
                 },
                 type

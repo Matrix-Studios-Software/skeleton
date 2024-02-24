@@ -6,8 +6,7 @@ import io.ktor.server.application.*
 import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
 import ltd.matrixstudios.skeleton.core.HttpPassthroughManagement.configureHTTP
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
-import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
-import ltd.matrixstudios.skeleton.deployment.repository.TargetRepositoryService
+import ltd.matrixstudios.skeleton.deployment.repository.RepositoryTemplateService
 import ltd.matrixstudios.skeleton.plugins.*
 import ltd.matrixstudios.skeleton.paths.SkeletonRoutingManager.configureRouting
 
@@ -27,7 +26,7 @@ fun Application.module()
     configureRouting()
 
     SkeletonConfigurationService.load()
-    TargetRepositoryService.loadFiles()
+    RepositoryTemplateService.loadFiles()
 
     println(DeploymentService.dockerClient.listContainersCmd().exec().toString())
 }

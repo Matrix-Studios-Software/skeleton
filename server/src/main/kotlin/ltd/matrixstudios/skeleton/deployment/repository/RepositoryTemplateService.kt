@@ -4,12 +4,12 @@ import io.ktor.serialization.kotlinx.json.*
 import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
 import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
 import ltd.matrixstudios.skeleton.deployment.scaling.ReplicationProperties
-import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
+import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTemplate
 import java.io.File
 
-object TargetRepositoryService
+object RepositoryTemplateService
 {
-    val targets = mutableMapOf<String, DeploymentTarget>()
+    val templates = mutableMapOf<String, DeploymentTemplate>()
     private val parent = File(SkeletonConfigurationService.getParentFolder(), "targets")
 
     fun loadFiles()
@@ -27,26 +27,26 @@ object TargetRepositoryService
             val templateConfig = child.listFiles()?.firstOrNull { it.isFile && it.name == "template-config.json" }
                 ?: continue
 
-            val parsedDeploymentTarget = DefaultJson.decodeFromString<DeploymentTarget>(templateConfig.readText())
-            println("Found deployment target: ${parsedDeploymentTarget.id}")
+            val parsedDeploymentTemplate = DefaultJson.decodeFromString<DeploymentTemplate>(templateConfig.readText())
+            println("Found deployment target: ${parsedDeploymentTemplate.id}")
 
             val replicationFile = child.listFiles()?.firstOrNull { it.isFile && it.name == "replication-settings.json" }
 
             if (replicationFile != null)
             {
-                println("Found the replication settings for ${parsedDeploymentTarget.id}")
+                println("Found the replication settings for ${parsedDeploymentTemplate.id}")
                 val replicationProperties = DefaultJson.decodeFromString<ReplicationProperties>(replicationFile.readText())
 
-                parsedDeploymentTarget.replicationProperties = replicationProperties
+                parsedDeploymentTemplate.replicationProperties = replicationProperties
             }
 
             // update directory
-            parsedDeploymentTarget.directory = child.path
+            parsedDeploymentTemplate.directory = child.path
 
-            targets[parsedDeploymentTarget.id] = parsedDeploymentTarget
+            templates[parsedDeploymentTemplate.id] = parsedDeploymentTemplate
         }
 
-        for (target in targets.values)
+        for (target in templates.values)
         {
             val image = DockerImageManager.listImages().firstOrNull { it.repoTags.contains(target.id + ":1.0") }
 

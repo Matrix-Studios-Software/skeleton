@@ -2,9 +2,7 @@ package ltd.matrixstudios.skeleton.deployment.container.wrapper
 
 import com.github.dockerjava.api.command.CreateContainerResponse
 import com.github.dockerjava.api.model.Container
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
-import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
+import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTemplate
 
 /**
  * Class created on 2/21/2024
@@ -16,6 +14,6 @@ import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
 data class ContainerData(
     val id: String,
     val model: Container,
-    val target: DeploymentTarget? = null,
+    val target: DeploymentTemplate? = null,
     val container: CreateContainerResponse? = null
 )
