@@ -1,4 +1,4 @@
-package ltd.matrixstudios.skeleton.paths
+package ltd.matrixstudios.skeleton.route
 
 import io.ktor.server.application.*
 import io.ktor.server.request.*

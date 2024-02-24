@@ -8,7 +8,7 @@ import ltd.matrixstudios.skeleton.core.HttpPassthroughManagement.configureHTTP
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.repository.RepositoryTemplateService
 import ltd.matrixstudios.skeleton.plugins.*
-import ltd.matrixstudios.skeleton.paths.SkeletonRoutingManager.configureRouting
+import ltd.matrixstudios.skeleton.route.SkeletonRoutingManager.configureRouting
 
 // use GSON to handle ambiguous object serialization
 val GSON: Gson = GsonBuilder()
