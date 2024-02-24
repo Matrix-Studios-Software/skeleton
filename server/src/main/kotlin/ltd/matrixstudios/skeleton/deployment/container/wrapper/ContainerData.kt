@@ -14,6 +14,7 @@ import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
  * @website https://solo.to/redis
  */
 data class ContainerData(
+    val id: String,
     val model: Container,
     val target: DeploymentTarget? = null,
     val container: CreateContainerResponse? = null

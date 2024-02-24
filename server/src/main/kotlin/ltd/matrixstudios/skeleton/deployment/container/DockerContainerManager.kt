@@ -8,6 +8,7 @@ import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTarget
 import ltd.matrixstudios.skeleton.formatId
+import ltd.matrixstudios.skeleton.sync.ContainerBindingService
 
 object DockerContainerManager
 {
@@ -40,11 +41,28 @@ object DockerContainerManager
             .exec()
 
         DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()
+
+        if (deploymentTarget != null)
+        {
+            ContainerData(
+                creationResponse.id,
+                getContainerById(creationResponse.id)!!,
+                deploymentTarget,
+                creationResponse
+            ).apply {
+                pushContainer(this, deploymentTarget)
+            }
+        }
     }
 
-    fun pushContainer(containerData: ContainerData)
+    fun pushContainer(containerData: ContainerData, deploymentTarget: DeploymentTarget? = null)
     {
         containerDataCache[containerData.model.id] = containerData
+
+        if (deploymentTarget != null)
+        {
+            ContainerBindingService.addContainerId(deploymentTarget.id, containerData)
+        }
     }
 
     fun getContainerData(id: String): ContainerData?
@@ -53,6 +71,6 @@ object DockerContainerManager
             ?: return null
 
         return containerDataCache[id.lowercase()]
-            ?: ContainerData(container)
+            ?: ContainerData(id, container)
     }
 }
