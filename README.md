@@ -26,11 +26,9 @@ Once you have completed the first step, you can create a file called `template-c
 
 ```yaml
 {
-{
     "id": "my-server",
     "name": "MyServerName",
     "space": 2048 #in MB
-  }
 }
 ```
 
