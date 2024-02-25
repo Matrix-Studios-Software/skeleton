@@ -6,6 +6,7 @@ import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.Ports
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
+import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTemplate
 import ltd.matrixstudios.skeleton.formatId
 import ltd.matrixstudios.skeleton.sync.ContainerBindingService
@@ -27,17 +28,20 @@ object DockerContainerManager
     fun getContainerById(containerId: String): Container? =
         DeploymentService.dockerClient.listContainersCmd().exec().firstOrNull { it.id == containerId.formatId() }
 
-    fun createAndInitiateContainer(imageId: String, deploymentTemplate: DeploymentTemplate? = null)
+    fun createAndInitiateContainer(imageId: String, deploymentTemplate: DeploymentTemplate? = null, request: DeploymentRequest? = null)
     {
         val portBindings = mutableMapOf<Int, Int>()
         val ports = Ports()
 
-        ports.bind(ExposedPort.tcp(25565), Ports.Binding.bindPort(25572))
-        portBindings[25565] = 25572
+        if (request != null)
+        {
+            ports.bind(ExposedPort.tcp(request.exposedPort), Ports.Binding.bindPort(request.bindedPort))
+            portBindings[request.exposedPort] = request.bindedPort
+        }
 
         val creationResponse = DeploymentService.dockerClient.createContainerCmd(imageId)
             .withPortBindings(ports)
-            .withIpv4Address("0.0.0.0")
+            .withIpv4Address(request?.hostName ?: "0.0.0.0")
             .exec()
 
         DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()

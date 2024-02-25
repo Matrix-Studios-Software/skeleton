@@ -2,10 +2,12 @@ package ltd.matrixstudios.skeleton.deployment.image.routing
 
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ltd.matrixstudios.skeleton.GSON
 import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentLogicService
+import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
 import ltd.matrixstudios.skeleton.formatId
 
 /**
@@ -67,7 +69,16 @@ object ImageSpecificRoutes
                 return
             }
 
-            DeploymentLogicService.launchUsingExclusivelyDocker(idParameter.formatId())
+            val body = call.receiveText()
+            val requestParam = GSON.fromJson(body, DeploymentRequest::class.java)
+
+            if (requestParam == null)
+            {
+                call.respond(HttpStatusCode(404, "Unable to parse the deployment request"))
+                return
+            }
+
+            DeploymentLogicService.launchWithDeploymentRequest(idParameter.formatId(), requestParam)
             call.respondText("Attempting to launch this container...")
         }
     }

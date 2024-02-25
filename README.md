@@ -48,7 +48,20 @@ You can do this by creating a new file called `replication-settings.json` and se
 
 This will set an upper bound, `maximumRepications`, that the service will never exceed when launching new servers. It will also set a floor that the replications can never drop below for required services.
 
-If you wanted to have multiple replications per invocation, you just change `replicationRate` to the amount you want.
+If you wanted to have multiple replications per invocation, you just change `replicationRate` to the amount you want. After this the server will identify the template and use it accordingly!
 
+# Deploying
+
+We deploy instances by web requests. The route you must use is `http://your-host:your-port/deployment/images/{id}/launch` You must also provide a `DeploymentTemplate` in the request body:
+```yaml
+{
+  templateId: "my-server",
+  exposedPort: 25565,
+  bindedPort: 25572,
+  hostName: "0.0.0.0"
+}
+```
+
+This will launch an instance of `my-server` on the port `25572` with the host `0.0.0.0`.
 
 
