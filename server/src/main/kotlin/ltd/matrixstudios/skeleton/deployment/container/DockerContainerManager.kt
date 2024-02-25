@@ -26,7 +26,7 @@ object DockerContainerManager
     }
 
     fun getContainerById(containerId: String): Container? =
-        DeploymentService.dockerClient.listContainersCmd().exec().firstOrNull { it.id == containerId.formatId() }
+        DeploymentService.dockerClient.listContainersCmd().exec().firstOrNull { it.id == containerId }
 
     fun createAndInitiateContainer(imageId: String, deploymentTemplate: DeploymentTemplate? = null, request: DeploymentRequest? = null)
     {
