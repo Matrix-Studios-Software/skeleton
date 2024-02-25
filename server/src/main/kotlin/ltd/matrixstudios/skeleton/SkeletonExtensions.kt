@@ -8,6 +8,7 @@ import ltd.matrixstudios.skeleton.core.HttpPassthroughManagement.configureHTTP
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.repository.RepositoryTemplateService
 import ltd.matrixstudios.skeleton.plugins.*
+import ltd.matrixstudios.skeleton.redis.RedisDatabaseManager
 import ltd.matrixstudios.skeleton.route.SkeletonRoutingManager.configureRouting
 
 // use GSON to handle ambiguous object serialization
@@ -25,6 +26,7 @@ fun Application.module()
     configureSecurity()
     configureRouting()
 
+    RedisDatabaseManager.load("localhost", 6379, null)
     SkeletonConfigurationService.load()
     RepositoryTemplateService.loadFiles()
 
