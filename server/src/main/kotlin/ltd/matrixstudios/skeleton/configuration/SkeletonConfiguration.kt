@@ -10,4 +10,14 @@ interface SkeletonConfiguration
     @EntryName("template-path")
     @DefaultString("JAR_PATH")
     fun getTemplatePath(): String
+
+    @Intrinsic
+    @EntryName("network-configuration-path")
+    @DefaultString("None")
+    fun getNetworkConfigurationPath(): String
+
+    @Intrinsic
+    @EntryName("network-configuration-property")
+    @DefaultString("None")
+    fun getNetworkConfigurationProperty(): String
 }
