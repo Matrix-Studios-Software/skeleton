@@ -9,6 +9,7 @@ import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentLogicService
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
 import ltd.matrixstudios.skeleton.formatId
+import java.util.concurrent.ThreadLocalRandom
 
 /**
  * Class created on 2/22/2024
@@ -76,6 +77,11 @@ object ImageSpecificRoutes
             {
                 call.respond(HttpStatusCode(404, "Unable to parse the deployment request"))
                 return
+            }
+
+            if (requestParam.portProtocol != null && requestParam.portProtocol == DeploymentRequest.PortProtocol.Randomized)
+            {
+                requestParam.bindedPort = ThreadLocalRandom.current().nextInt(25566, 25599)
             }
 
             DeploymentLogicService.launchWithDeploymentRequest(idParameter.formatId(), requestParam)

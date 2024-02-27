@@ -4,11 +4,13 @@ import com.github.dockerjava.api.command.InspectContainerResponse
 import com.github.dockerjava.api.model.Container
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.Ports
+import ltd.matrixstudios.skeleton.config
 import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTemplate
 import ltd.matrixstudios.skeleton.formatId
+import ltd.matrixstudios.skeleton.network.type.PropertiesNetworkConfiguration
 import ltd.matrixstudios.skeleton.sync.ContainerBindingService
 
 object DockerContainerManager
@@ -43,6 +45,17 @@ object DockerContainerManager
             .withPortBindings(ports)
             .withIpv4Address(request?.hostName ?: "0.0.0.0")
             .exec()
+
+        val propertiesLocation = config().getNetworkConfigurationPath()
+
+        if (propertiesLocation != "None" && request != null)
+        {
+            val key = config().getNetworkConfigurationProperty()
+
+            PropertiesNetworkConfiguration(key).also {
+                it.setPortInformation(key, request.bindedPort)
+            }
+        }
 
         DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()
 
