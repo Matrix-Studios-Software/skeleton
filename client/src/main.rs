@@ -4,13 +4,15 @@ use crate::r#mod::ImageHandler;
 
 fn main() {
     println!("Skeleton Console");
-    let image_handler = ImageHandler {
+    let mut image_handler = ImageHandler {
         sub_commands: vec![]
     };
 
     loop {
         let mut name = String::new();
         stdin().read_line(&mut name).unwrap();
+
+        image_handler.parse_command_input(name.as_str(), name.split(" ").collect());
 
         println!("Sent command: {}", name);
     }
