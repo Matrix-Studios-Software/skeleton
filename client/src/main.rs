@@ -1,21 +1,16 @@
+mod r#mod;
 use std::io::stdin;
+use crate::r#mod::ImageHandler;
 
 fn main() {
     println!("Skeleton Console");
+    let image_handler = ImageHandler {
+        sub_commands: vec![]
+    };
+
     loop {
         let mut name = String::new();
         stdin().read_line(&mut name).unwrap();
-
-        if name.contains("image info") {
-            let image_id = name.split(" ").nth(2);
-
-            if image_id.is_none() {
-                println!("Usage: image info <image_id>")
-            } else {
-                println!("Sending image info command...");
-                get_image_info("idk").expect("Unable to handle request");
-            }
-        }
 
         println!("Sent command: {}", name);
     }
