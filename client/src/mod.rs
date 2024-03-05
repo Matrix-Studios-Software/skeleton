@@ -21,7 +21,7 @@ impl ImageHandler {
         }
     }
     pub fn get_image_info(&mut self, id: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let res = reqwest::blocking::get("https://httpbin.org/get")?;
+        let res = reqwest::blocking::get("http://localhost:6969/deployment/images/".to_owned() + id)?;
 
         println!("{}", res.status());
 
