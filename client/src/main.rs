@@ -12,21 +12,10 @@ fn main() {
         let mut name = String::new();
         stdin().read_line(&mut name).unwrap();
 
-        image_handler.parse_command_input(name.as_str(), name.split(" ").collect());
-
-        println!("Sent command: {}", name);
+        if image_handler.subcommand_of(name.as_str()) {
+            image_handler.parse_command_input(name.as_str(), name.split(" ").collect());
+        } else {
+            println!("Unable to find this command!")
+        }
     }
-}
-
-fn get_image_info(id: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let res = reqwest::blocking::get("https://httpbin.org/get")?;
-
-    println!("{}", res.status());
-
-    let body = res.bytes()?;
-    let v = body.to_vec();
-    let s = String::from_utf8_lossy(&v);
-    println!("response: {} ", s);
-
-    Ok(())
 }
