@@ -12,8 +12,6 @@ pub struct DeploymentRequest {
     pub binded_port: u32,
     pub host_name: String
 }
-
-// This is what #[derive(Serialize)] would generate.
 impl Serialize for DeploymentRequest {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
         where
