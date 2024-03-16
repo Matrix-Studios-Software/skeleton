@@ -38,9 +38,9 @@ You can do this by creating a new file called `replication-settings.json` and se
 
 ```yaml
 {
-  maximumReplications: 10,
-  minimumReplications: 2,
-  replicationRate: 1
+  "maximumReplications": 10,
+  "minimumReplications": 2,
+  "replicationRate": 1
 }
 ```
 
@@ -53,10 +53,10 @@ If you wanted to have multiple replications per invocation, you just change `rep
 We deploy instances by web requests. The route you must use is `http://your-host:your-port/deployment/images/{id}/launch` You must also provide a `DeploymentTemplate` in the request body:
 ```yaml
 {
-  templateId: "my-server",
-  exposedPort: 25565,
-  bindedPort: 25572,
-  hostName: "0.0.0.0"
+  "templateId": "my-server",
+  "exposedPort": 25565,
+  "bindedPort": 25572,
+  "hostName": "0.0.0.0"
 }
 ```
 
