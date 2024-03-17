@@ -8,7 +8,8 @@ async fn main() {
     println!(" ");
     println!("Image Commands:");
     for image_command in vec![
-        "image info <image_id> - View information about an image", "image launch <image_id> <template> <binded-port> <exposed-port> - Launch an image",
+        "image info <image_id> - View information about an image",
+        "image launch <image_id> <template> <binded-port> <exposed-port> - Launch an image",
     ] {
         println!("- {image_command}");
     }
