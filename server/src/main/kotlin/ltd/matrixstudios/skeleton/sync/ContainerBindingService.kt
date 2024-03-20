@@ -12,6 +12,17 @@ object ContainerBindingService
         object : TypeToken<MutableMap<String, ContainerData>>()
         {}.type
 
+    fun getAllContainerEntries(): MutableMap<String, ContainerData> = RedisDatabaseManager.useThenClose { jedis ->
+        val result = mutableMapOf<String, ContainerData>()
+        val map = jedis.hgetAll("skeleton:container-bindings:")
+
+        map.entries.forEach {
+            result[it.key] = GSON.fromJson(it.value, ContainerData::class.java)
+        }
+
+        return@useThenClose result
+    }
+
     fun getContainerIdsFromTemplate(templateId: String): MutableMap<String, ContainerData> =
         RedisDatabaseManager.useThenClose { jedis ->
             val result = mutableMapOf<String, ContainerData>()
