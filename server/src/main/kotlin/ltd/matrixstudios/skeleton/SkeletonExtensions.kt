@@ -10,6 +10,7 @@ import ltd.matrixstudios.skeleton.deployment.repository.RepositoryTemplateServic
 import ltd.matrixstudios.skeleton.plugins.*
 import ltd.matrixstudios.skeleton.redis.RedisDatabaseManager
 import ltd.matrixstudios.skeleton.route.SkeletonRoutingManager.configureRouting
+import ltd.matrixstudios.skeleton.routine.ContainerHealthRoutine
 
 // use GSON to handle ambiguous object serialization
 val GSON: Gson = GsonBuilder()
@@ -30,9 +31,16 @@ fun Application.module()
     SkeletonConfigurationService.load()
     RepositoryTemplateService.loadFiles()
 
+    ContainerHealthRoutine.start()
+
     println(DeploymentService.dockerClient.listContainersCmd().exec().toString())
 }
 
 fun config() = SkeletonConfigurationService.config
 
 fun String.formatId(): String = "sha256:$this"
+
+fun log(message: String)
+{
+    println("[Skeleton] $message")
+}

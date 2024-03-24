@@ -22,10 +22,11 @@ object DockerContainerManager
     fun getContainerInspection(containerId: String): InspectContainerResponse =
         DeploymentService.dockerClient.inspectContainerCmd(containerId).exec()
 
-    fun killContainer(containerId: String)
-    {
+    fun killContainer(containerId: String) =
         DeploymentService.dockerClient.killContainerCmd(containerId).exec()
-    }
+
+    fun deleteContainer(containerId: String) =
+        DeploymentService.dockerClient.removeContainerCmd(containerId).exec()
 
     fun getContainerById(containerId: String): Container? =
         DeploymentService.dockerClient.listContainersCmd().exec().firstOrNull { it.id == containerId }

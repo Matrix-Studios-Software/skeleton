@@ -1,6 +1,7 @@
 package ltd.matrixstudios.skeleton.routine
 
 import ltd.matrixstudios.skeleton.deployment.container.DockerContainerManager
+import ltd.matrixstudios.skeleton.log
 import ltd.matrixstudios.skeleton.sync.ContainerBindingService
 import java.lang.Thread.sleep
 import java.util.concurrent.TimeUnit
@@ -8,10 +9,13 @@ import kotlin.concurrent.thread
 
 object ContainerHealthRoutine
 {
+    private lateinit var healthThread: Thread
+
     fun start()
     {
-        val healthThread = thread {
+        healthThread = thread {
             while (true) {
+                log("[Health] Checking all containers for a health report.")
                 val servers = ContainerBindingService.getAllContainerEntries()
 
                 for (entry in servers)
@@ -20,7 +24,10 @@ object ContainerHealthRoutine
 
                     if (containerState.running != true)
                     {
-                        //TODO: remove server from redis and kill container
+                        ContainerBindingService.deleteContainerId(entry.key)
+                        DockerContainerManager.deleteContainer(entry.key)
+
+                        log("[Health] Removed container ${entry.key} from Redis and the active Docker container pool.")
                     }
                 }
 
@@ -34,5 +41,7 @@ object ContainerHealthRoutine
                 }
             }
         }
+
+        healthThread.name = "Skeleton - Health Thread"
     }
 }

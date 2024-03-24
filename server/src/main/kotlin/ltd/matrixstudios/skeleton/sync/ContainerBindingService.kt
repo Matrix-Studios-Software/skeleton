@@ -42,6 +42,10 @@ object ContainerBindingService
             return@useThenClose result
         }
 
+    fun deleteContainerId(templateId: String) = RedisDatabaseManager.useThenClose { jedis ->
+        jedis.hdel(templateId)
+    }
+
     fun addContainerId(templateId: String, data: ContainerData) = RedisDatabaseManager.useThenClose { jedis ->
         jedis.hset(
             "skeleton:container-bindings:",
