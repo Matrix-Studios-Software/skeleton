@@ -10,6 +10,7 @@ import ltd.matrixstudios.skeleton.deployment.container.wrapper.ContainerData
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
 import ltd.matrixstudios.skeleton.deployment.targets.DeploymentTemplate
 import ltd.matrixstudios.skeleton.formatId
+import ltd.matrixstudios.skeleton.log
 import ltd.matrixstudios.skeleton.network.type.PropertiesNetworkConfiguration
 import ltd.matrixstudios.skeleton.sync.ContainerBindingService
 
@@ -58,18 +59,24 @@ object DockerContainerManager
             }
         }
 
-        DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()
-
-        if (deploymentTemplate != null)
+        try
         {
-            ContainerData(
-                creationResponse.id,
-                getContainerById(creationResponse.id)!!,
-                deploymentTemplate,
-                creationResponse
-            ).apply {
-                pushContainer(this, deploymentTemplate)
+            DeploymentService.dockerClient.startContainerCmd(creationResponse.id).exec()
+
+            if (deploymentTemplate != null)
+            {
+                ContainerData(
+                    creationResponse.id,
+                    getContainerById(creationResponse.id)!!,
+                    deploymentTemplate,
+                    creationResponse
+                ).apply {
+                    pushContainer(this, deploymentTemplate)
+                }
             }
+        } catch (e: Exception)
+        {
+            log("[Deployment] Caught an exception while opening a container: ${e.message}")
         }
     }
 

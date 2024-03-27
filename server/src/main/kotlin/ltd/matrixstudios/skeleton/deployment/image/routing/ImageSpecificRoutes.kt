@@ -81,11 +81,22 @@ object ImageSpecificRoutes
 
             if (requestParam.portProtocol != null && requestParam.portProtocol == DeploymentRequest.PortProtocol.Randomized)
             {
-                requestParam.bindedPort = ThreadLocalRandom.current().nextInt(25566, 25599)
+                requestParam.bindedPort = ThreadLocalRandom.current().nextInt(25565, 25699)
             }
 
             DeploymentLogicService.launchWithDeploymentRequest(idParameter.formatId(), requestParam)
             call.respondText("Attempting to launch this container...")
+
+            if (requestParam.amount != null)
+            {
+                // deploy x amount while maintaining original
+                for (int in 1 until requestParam.amount)
+                {
+                    // assign new port
+                    requestParam.bindedPort = ThreadLocalRandom.current().nextInt(25565, 25699)
+                    DeploymentLogicService.launchWithDeploymentRequest(idParameter.formatId(), requestParam)
+                }
+            }
         }
     }
 }

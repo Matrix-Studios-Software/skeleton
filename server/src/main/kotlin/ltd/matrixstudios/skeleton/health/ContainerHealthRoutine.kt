@@ -1,4 +1,4 @@
-package ltd.matrixstudios.skeleton.routine
+package ltd.matrixstudios.skeleton.health
 
 import ltd.matrixstudios.skeleton.deployment.container.DockerContainerManager
 import ltd.matrixstudios.skeleton.log

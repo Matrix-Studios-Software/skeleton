@@ -5,6 +5,7 @@ data class DeploymentRequest(
     val exposedPort: Int,
     var bindedPort: Int,
     val hostName: String,
+    val amount: Int? = null,
     val portProtocol: PortProtocol? = null
 )
 {
