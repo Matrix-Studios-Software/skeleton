@@ -11,7 +11,7 @@ import kotlin.concurrent.thread
 
 object AutomaticScaleRoutine
 {
-    lateinit var scaleThread: Thread
+    private lateinit var scaleThread: Thread
     fun startScaling()
     {
         scaleThread = thread {

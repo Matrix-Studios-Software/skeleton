@@ -17,4 +17,18 @@ object RedisSpecificRoutes
                 return@useThenClose jedis.hgetAll("skeleton:container-bindings:")
             }
         )
+
+    /**
+     * Deletes all container keys from Redis
+     *
+     * @path /redis/container/wipe
+     */
+    suspend fun deleteRedisKeys(call: ApplicationCall) =
+        RedisDatabaseManager.useThenClose { jedis ->
+            jedis.hgetAll("skeleton:container-bindings:").forEach {
+                jedis.hdel("skeleton:container-bindings:", it.key)
+            }
+        }.apply {
+            call.respond("Removed all entries from redis!")
+        }
 }
