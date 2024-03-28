@@ -1,11 +1,13 @@
 package ltd.matrixstudios.skeleton.route
 
+import io.ktor.client.engine.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ltd.matrixstudios.skeleton.deployment.container.routing.ContainerSpecificRoutes
 import ltd.matrixstudios.skeleton.deployment.image.routing.ImageSpecificRoutes
+import ltd.matrixstudios.skeleton.redis.routing.RedisSpecificRoutes
 
 /**
  * Class created on 2/21/2024
@@ -38,6 +40,14 @@ object SkeletonRoutingManager
             }
             post("/deployment/images/{id}/launch") {
                 ImageSpecificRoutes.launchImageRequest(call)
+            }
+
+            /**
+             * Any route that has to do with managing
+             * Redis entries
+             */
+            get("/redis/container/dump") {
+                RedisSpecificRoutes.dumpRedisRequest(call)
             }
         }
     }
