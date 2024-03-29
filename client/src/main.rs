@@ -15,7 +15,8 @@ async fn main() {
     }
     println!("Container Commands:");
     for container_command in vec![
-        "container redis-dump - View all container keys currently in Redis"
+        "container redis-dump - View all container keys currently in Redis",
+        "container info <id> - View the container information for a certain Id"
     ] {
         println!("- {container_command}")
     }

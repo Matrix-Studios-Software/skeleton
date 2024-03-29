@@ -46,11 +46,28 @@ impl ContainerHandler {
 
             match node_string.to_lowercase().as_str() {
                 "redis-dump" => self.get_redis_info().await,
+                "status" => self.get_container_status(args.iter().nth(2).unwrap()).await,
                 _ => Ok(())
             }.expect("Unable to handle web request")
         }
 
         return Ok(())
+    }
+
+    pub async fn get_container_status(&mut self, id: &str) -> Result<(), Box<dyn std::error::Error>> {
+        let client = reqwest::Client::new();
+        let res = client.get("http://localhost:6969/deployment/container".to_owned() + id + "/status").send().await.unwrap();
+
+        println!("{}", res.status());
+
+        let body = res.bytes().await?;
+        let v = body.to_vec();
+        let s = String::from_utf8_lossy(&v);
+        println!("response: {} ", s);
+
+        drop(client);
+
+        Ok(())
     }
 
     pub async fn get_redis_info(&mut self) -> Result<(), Box<dyn std::error::Error>> {
