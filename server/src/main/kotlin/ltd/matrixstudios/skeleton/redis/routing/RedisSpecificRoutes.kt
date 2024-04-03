@@ -2,10 +2,18 @@ package ltd.matrixstudios.skeleton.redis.routing
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import ltd.matrixstudios.skeleton.redis.RedisDatabaseManager
 
 object RedisSpecificRoutes
 {
+    fun Route.configureRedisRoutes()
+    {
+        get("/redis/container/dump") {
+            dumpRedisRequest(call)
+        }
+    }
+
     /**
      * Builds and runs and image
      *

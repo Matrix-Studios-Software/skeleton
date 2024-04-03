@@ -4,6 +4,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import ltd.matrixstudios.skeleton.GSON
 import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentLogicService
@@ -20,6 +21,16 @@ import java.util.concurrent.ThreadLocalRandom
  */
 object ImageSpecificRoutes
 {
+    fun Route.configureImageRoutes()
+    {
+        get("/deployment/images/{id}") {
+            imageDataRequest(call)
+        }
+        post("/deployment/images/{id}/launch") {
+            launchImageRequest(call)
+        }
+    }
+
     /**
      * Request general data about an image
      *

@@ -3,6 +3,7 @@ package ltd.matrixstudios.skeleton.deployment.container.routing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import ltd.matrixstudios.skeleton.GSON
 import ltd.matrixstudios.skeleton.deployment.container.DockerContainerManager
 import ltd.matrixstudios.skeleton.formatId
@@ -16,6 +17,16 @@ import ltd.matrixstudios.skeleton.formatId
  */
 object ContainerSpecificRoutes
 {
+    fun Route.configureContainerRoutes()
+    {
+        get("/deployment/container/{id}") {
+            containerDataRequest(call)
+        }
+        get("/deployment/container/{id}/status") {
+            retrieveContainerStatus(call)
+        }
+    }
+
     /**
      * Request general data about a container
      *
