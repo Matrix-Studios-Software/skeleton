@@ -32,7 +32,7 @@ object ContainerHealthRoutine
                         }
                     }.onFailure {
                         ContainerBindingService.deleteContainerId(entry.key)
-                        log("[Health] Removed container ${entry.key} from Redis because it was not a Docker image.")
+                        log("[Health] Removed container ${entry.key} from Redis because it was not a Docker container.")
                     }
                 }
 
