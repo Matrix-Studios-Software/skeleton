@@ -6,13 +6,15 @@ import com.github.dockerjava.core.DockerClientConfig
 import com.github.dockerjava.core.DockerClientImpl
 import com.github.dockerjava.okhttp.OkDockerHttpClient
 import com.github.dockerjava.transport.DockerHttpClient
+import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
 
 
 object DeploymentService
 {
     private val dockerConfig: DockerClientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder()
-        .withDockerHost("tcp://localhost:2375")
-        .withDockerTlsVerify(false)
+        .withDockerHost("unix:///var/run/docker.sock")
+        .withDockerTlsVerify(true)
+        .withDockerCertPath(SkeletonConfigurationService.config.getDockerCertPath())
         .build()
 
     private val httpClient: DockerHttpClient = OkDockerHttpClient.Builder()

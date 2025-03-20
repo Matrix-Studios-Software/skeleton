@@ -7,6 +7,7 @@ import ltd.matrixstudios.skeleton.formatId
 object AutomaticScaleService
 {
     val requirements = mutableMapOf<String, AutomaticScaleRequirement>()
+
     fun registerRequirement(scaleRequirement: AutomaticScaleRequirement)
     {
         requirements[scaleRequirement.id] = scaleRequirement

@@ -23,7 +23,7 @@ object ContainerBindingService
         return@useThenClose result
     }
 
-    fun getContainerIdsFromTemplate(templateId: String): MutableMap<String, ContainerData> =
+    private fun getContainerIdsFromTemplate(templateId: String): MutableMap<String, ContainerData> =
         RedisDatabaseManager.useThenClose { jedis ->
             val result = mutableMapOf<String, ContainerData>()
 
@@ -42,11 +42,11 @@ object ContainerBindingService
             return@useThenClose result
         }
 
-    fun deleteContainerId(templateId: String) = RedisDatabaseManager.useThenClose { jedis ->
+    fun deleteContainerId(templateId: String): Long = RedisDatabaseManager.useThenClose { jedis ->
         jedis.hdel(templateId)
     }
 
-    fun addContainerId(templateId: String, data: ContainerData) = RedisDatabaseManager.useThenClose { jedis ->
+    fun addContainerId(templateId: String, data: ContainerData): Long = RedisDatabaseManager.useThenClose { jedis ->
         jedis.hset(
             "skeleton:container-bindings:",
             templateId.lowercase(),

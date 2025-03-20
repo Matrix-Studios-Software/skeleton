@@ -12,6 +12,11 @@ interface SkeletonConfiguration
     fun getTemplatePath(): String
 
     @Intrinsic
+    @EntryName("docker-cert")
+    @DefaultString("DockerCertPath")
+    fun getDockerCertPath(): String
+
+    @Intrinsic
     @EntryName("network-configuration-path")
     @DefaultString("None")
     fun getNetworkConfigurationPath(): String

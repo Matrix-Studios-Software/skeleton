@@ -13,13 +13,10 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
-    implementation("io.ktor:ktor-server-call-logging-jvm")
-    implementation("io.ktor:ktor-server-metrics-jvm")
     implementation("io.ktor:ktor-server-default-headers-jvm")
     implementation("io.ktor:ktor-server-cors-jvm")
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
 
     // docker
     implementation("com.github.docker-java:docker-java-transport-okhttp:3.3.4")
@@ -31,7 +28,7 @@ dependencies {
     implementation("redis.clients:jedis:2.8.0")
 
     // amber
-    implementation("ltd.matrixstudios:amber:1.1.0")
+    implementation("com.github.98ping:amber:0736407e62")
     implementation("com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4")
 
     // tests
