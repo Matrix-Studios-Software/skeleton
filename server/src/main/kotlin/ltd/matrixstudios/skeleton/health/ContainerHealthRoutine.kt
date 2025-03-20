@@ -20,14 +20,19 @@ object ContainerHealthRoutine
 
                 for (entry in servers)
                 {
-                    val containerState = DockerContainerManager.getContainerInspection(entry.key).ContainerState()
+                    kotlin.runCatching {
+                        val containerState = DockerContainerManager.getContainerInspection(entry.key).ContainerState()
 
-                    if (containerState.running != true)
-                    {
+                        if (containerState.running != true)
+                        {
+                            ContainerBindingService.deleteContainerId(entry.key)
+                            DockerContainerManager.deleteContainer(entry.key)
+
+                            log("[Health] Removed container ${entry.key} from Redis and the active Docker container pool.")
+                        }
+                    }.onFailure {
                         ContainerBindingService.deleteContainerId(entry.key)
-                        DockerContainerManager.deleteContainer(entry.key)
-
-                        log("[Health] Removed container ${entry.key} from Redis and the active Docker container pool.")
+                        log("[Health] Removed container ${entry.key} from Redis because it was not a Docker image.")
                     }
                 }
 
