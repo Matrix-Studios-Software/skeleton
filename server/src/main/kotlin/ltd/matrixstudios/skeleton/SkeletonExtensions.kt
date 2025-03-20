@@ -6,12 +6,13 @@ import io.ktor.server.application.*
 import ltd.matrixstudios.skeleton.automation.routine.AutomaticScaleRoutine
 import ltd.matrixstudios.skeleton.configuration.SkeletonConfigurationService
 import ltd.matrixstudios.skeleton.core.HttpPassthroughManagement.configureHTTP
-import ltd.matrixstudios.skeleton.deployment.DeploymentService
 import ltd.matrixstudios.skeleton.deployment.repository.RepositoryTemplateService
-import ltd.matrixstudios.skeleton.plugins.*
+import ltd.matrixstudios.skeleton.health.ContainerHealthRoutine
+import ltd.matrixstudios.skeleton.plugins.configureAdministration
+import ltd.matrixstudios.skeleton.plugins.configureSecurity
+import ltd.matrixstudios.skeleton.plugins.configureSerialization
 import ltd.matrixstudios.skeleton.redis.RedisDatabaseManager
 import ltd.matrixstudios.skeleton.route.SkeletonRoutingManager.configureRouting
-import ltd.matrixstudios.skeleton.health.ContainerHealthRoutine
 
 // use GSON to handle ambiguous object serialization
 val GSON: Gson = GsonBuilder()
@@ -34,8 +35,6 @@ fun Application.module()
 
     ContainerHealthRoutine.start()
     AutomaticScaleRoutine.startScaling()
-
-    println(DeploymentService.dockerClient.listContainersCmd().exec().toString())
 }
 
 fun config() = SkeletonConfigurationService.config

@@ -20,7 +20,7 @@ Skeleton has many unique features which allows people to hand the management sid
 
 # How To Use
 
-In order to use skeleton, you must first make a template of the type of server you will be creating. First, you must navigate to the file location that you have defined in the configuration for skeleton. Once you do this, you will see a folder called `templates` that you will place your server files into.
+In order to use skeleton, you must first make a template of the type of server you will be creating. First, you must navigate to the file location that you have defined in the configuration for skeleton. Once you do this, you will see a folder called `targets` that you will place your server files into.
 
 Once you have completed the first step, you can create a file called `template-config.json` and set it up. An example JSON configuration would look like this:
 
