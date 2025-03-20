@@ -43,7 +43,7 @@ object ContainerBindingService
         }
 
     fun deleteContainerId(templateId: String): Long = RedisDatabaseManager.useThenClose { jedis ->
-        jedis.hdel(templateId)
+        jedis.hdel("skeleton:container-bindings:", templateId.lowercase())
     }
 
     fun addContainerId(templateId: String, data: ContainerData): Long = RedisDatabaseManager.useThenClose { jedis ->
