@@ -9,6 +9,7 @@ import ltd.matrixstudios.skeleton.core.HttpPassthroughManagement.configureHTTP
 import ltd.matrixstudios.skeleton.deployment.repository.RepositoryTemplateService
 import ltd.matrixstudios.skeleton.health.ContainerHealthRoutine
 import ltd.matrixstudios.skeleton.plugins.configureAdministration
+import ltd.matrixstudios.skeleton.plugins.configureMonitoring
 import ltd.matrixstudios.skeleton.plugins.configureSecurity
 import ltd.matrixstudios.skeleton.plugins.configureSerialization
 import ltd.matrixstudios.skeleton.redis.RedisDatabaseManager
@@ -24,7 +25,7 @@ fun Application.module()
 {
     configureAdministration()
     configureSerialization()
-    //configureMonitoring()
+    configureMonitoring()
     configureHTTP()
     configureSecurity()
     configureRouting()

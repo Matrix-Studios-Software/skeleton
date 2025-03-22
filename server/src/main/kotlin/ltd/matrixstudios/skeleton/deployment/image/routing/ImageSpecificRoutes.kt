@@ -10,6 +10,7 @@ import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentLogicService
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
 import ltd.matrixstudios.skeleton.formatId
+import ltd.matrixstudios.skeleton.log
 import java.util.concurrent.ThreadLocalRandom
 
 /**
