@@ -17,6 +17,9 @@ dependencies {
     implementation("io.ktor:ktor-server-cors-jvm")
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("io.ktor:ktor-server-call-logging-jvm")
+    implementation("io.ktor:ktor-server-metrics-jvm")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
 
     // docker
     implementation("com.github.docker-java:docker-java-transport-okhttp:3.3.4")

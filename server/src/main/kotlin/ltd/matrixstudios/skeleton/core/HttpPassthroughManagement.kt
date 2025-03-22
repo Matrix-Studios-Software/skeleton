@@ -23,6 +23,7 @@ object HttpPassthroughManagement
             allowMethod(HttpMethod.Delete)
             allowMethod(HttpMethod.Patch)
             allowHeader(HttpHeaders.Authorization)
+            allowMethod(HttpMethod.Post)
             allowHeader("Skeleton-Authorization")
             anyHost()
         }
