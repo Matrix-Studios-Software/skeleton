@@ -59,7 +59,7 @@ object RepositoryTemplateService
                 if (target.directory != null)
                 {
                     val id = DockerImageManager.createImage(target.getDockerfile())
-                    DockerImageManager.tagImage(id, target.id, "1.0")
+                    DockerImageManager.applyImageTag(id, target.id, "1.0")
                 }
             }
         }

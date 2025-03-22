@@ -34,18 +34,22 @@ object DockerImageManager
             .exec(callback).awaitImageId()
     }
 
-    fun tagImage(id: String, repo: String, tag: String) =
+    fun applyImageTag(id: String, repo: String, tag: String) =
         DeploymentService.dockerClient.tagImageCmd(id, repo, tag).exec()
 
-    fun getImageData(id: String): Image?
+    fun getImageDataFromSHA(id: String): Image?
     {
         return listImages().firstOrNull { it.id == id.formatId() }
     }
 
-    fun getImageDataBasedOnTag(tag: String) = RepositoryTemplateService
+    fun getImageDataFromTag(tag: String): Image? = listImages().firstOrNull { image ->
+        image.repoTags.any { it.equals(tag, ignoreCase = true) }
+    }
+
+    fun getTemplateBasedOnTag(tag: String) = RepositoryTemplateService
         .templates.values.firstOrNull { target ->
             target.containers.any { id ->
-                getImageData(id)?.repoTags?.any { it.equals(tag, ignoreCase = true) } ?: false
+                getImageDataFromSHA(id)?.repoTags?.any { it.equals(tag, ignoreCase = true) } ?: false
             }
         }
 }

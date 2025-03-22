@@ -9,8 +9,6 @@ import ltd.matrixstudios.skeleton.GSON
 import ltd.matrixstudios.skeleton.deployment.image.DockerImageManager
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentLogicService
 import ltd.matrixstudios.skeleton.deployment.manage.DeploymentRequest
-import ltd.matrixstudios.skeleton.formatId
-import ltd.matrixstudios.skeleton.log
 import java.util.concurrent.ThreadLocalRandom
 
 /**
@@ -37,7 +35,7 @@ object ImageSpecificRoutes
      *
      * @path /deployment/images/{id}
      */
-    suspend fun imageDataRequest(call: ApplicationCall)
+    private suspend fun imageDataRequest(call: ApplicationCall)
     {
         val idParameter = call.parameters["id"]
 
@@ -47,7 +45,7 @@ object ImageSpecificRoutes
             return
         } else
         {
-            val imageData = DockerImageManager.getImageData(idParameter.lowercase())
+            val imageData = DockerImageManager.getImageDataFromSHA(idParameter.lowercase())
 
             if (imageData == null)
             {
@@ -64,7 +62,7 @@ object ImageSpecificRoutes
      *
      * @path /deployment/images/{id}/launch
      */
-    suspend fun launchImageRequest(call: ApplicationCall)
+    private suspend fun launchImageRequest(call: ApplicationCall)
     {
         val idParameter = call.parameters["id"]
 
@@ -74,7 +72,7 @@ object ImageSpecificRoutes
             return
         } else
         {
-            val imageData = DockerImageManager.getImageData(idParameter.lowercase())
+            val imageData = DockerImageManager.getImageDataFromTag("${idParameter.lowercase()}:1.0")
 
             if (imageData == null)
             {
@@ -96,17 +94,15 @@ object ImageSpecificRoutes
                 requestParam.bindedPort = ThreadLocalRandom.current().nextInt(25565, 25699)
             }
 
-            DeploymentLogicService.launchWithDeploymentRequest(idParameter.formatId(), requestParam)
+            DeploymentLogicService.launchWithDeploymentRequest(imageData.id, requestParam)
             call.respondText("Attempting to launch this container...")
 
-            if (requestParam.amount != null)
+            if (requestParam.amount != null && requestParam.amount != 1)
             {
-                // deploy x amount while maintaining original
                 for (int in 1 until requestParam.amount)
                 {
-                    // assign new port
                     requestParam.bindedPort = ThreadLocalRandom.current().nextInt(25565, 25699)
-                    DeploymentLogicService.launchWithDeploymentRequest(idParameter.formatId(), requestParam)
+                    DeploymentLogicService.launchWithDeploymentRequest(imageData.id, requestParam)
                 }
             }
         }

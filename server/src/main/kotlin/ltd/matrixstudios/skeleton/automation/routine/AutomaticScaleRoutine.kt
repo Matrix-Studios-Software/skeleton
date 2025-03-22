@@ -32,7 +32,7 @@ object AutomaticScaleRoutine
                             "0.0.0.0"
                         )
 
-                        val imageData = DockerImageManager.getImageDataBasedOnTag("${template.id}:1.0") ?: continue
+                        val imageData = DockerImageManager.getTemplateBasedOnTag("${template.id}:1.0") ?: continue
 
                         AutomaticScaleService.scale(
                             template.replicationProperties?.replicationRate ?: 1,
